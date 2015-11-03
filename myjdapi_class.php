@@ -135,18 +135,28 @@ class MYJDAPI {
     // {"url":"/linkgrabberv2/addLinks",
     //  "params":["{\"priority\":\"DEFAULT\",\"links\":\"YOURLINK\",\"autostart\":true, \"packageName\": \"YOURPKGNAME\"}"],
     //  "rid":YOURREQUESTID,"apiVer":1}
-    public function addLinks($device, $links, $package_name, $destinationFolder = null, $extractPassword = null, $downloadPassword = null) {
+    public function addLinks($device, $links, $package_name, $options = array()) {
         if (is_array($links)) {
             $links = implode("\r\n", $links);
         }
 
-        $params = array("autostart" => false,
-                		"links" => $links,
-                		"packageName" => $package_name,
-                		"extractPassword" => $extractPassword,
-                		"priority" => "DEFAULT",
-                		"downloadPassword" => $downloadPassword,
-                		"destinationFolder" => $destinationFolder);
+        $options = array_merge(array(
+            'autostart' => false,
+            'destinationFolder' => null,
+            'extractPassword' => null,
+            'downloadPassword' => null,
+            'priority' => 'DEFAULT',
+        ), $options);
+
+        $params = array(
+            "autostart" => $options['autostart'],
+    		"links" => $links,
+    		"packageName" => $package_name,
+    		"extractPassword" => $options['extractPassword'],
+    		"priority" => $options['priority'],
+    		"downloadPassword" => $options['downloadPassword'],
+    		"destinationFolder" => $options['destinationFolder']
+        );
 
         $res = $this->callAction($device, "/linkgrabberv2/addLinks", $params);
 
