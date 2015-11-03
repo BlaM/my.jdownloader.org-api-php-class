@@ -12,7 +12,7 @@
 
 class MYJDAPI {
     private $api_url = "http://api.jdownloader.org";
-    private $version = "1.0.2";
+    private $version = "1.1.0";
     private $rid_counter;
     private $appkey = "MYJDAPI_php";
     private $apiVer = 1;
@@ -236,11 +236,11 @@ class MYJDAPI {
         }
         $content_json = json_decode($res, true);
         if ($content_json["rid"] != $this->rid_counter) {
-            print_r("error: rid mismatch!\n"); //todo remove after test
+            if ($this->DEBUG) print_r("error: rid mismatch!\n"); //todo remove after test
             return false;
         }
-        print_r("url= $url\n"); //todo remove after test
-        print_r("response= $res\n"); //todo remove after test
+        if ($this->DEBUG) print_r("url= $url\n"); //todo remove after test
+        if ($this->DEBUG) print_r("response= $res\n"); //todo remove after test
         return $res;
     }
 
